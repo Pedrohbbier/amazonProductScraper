@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Amazon Scraper</title>
+    <style>
+        /* Container for the whole page */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f3f3f3;
+        }
+
+        /* Input field and button */
+        #keyword {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+
+        #scrape {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #ff9900;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #scrape:hover {
+            background-color: #ff7a00;
+        }
+
+        /* Container for product results */
+        #results {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            grid-gap: 20px;
+            margin-top: 20px;
+        }
+
+        /* Individual product card */
+        .product-card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-card img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .product-card p {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <input id="keyword" type="text" placeholder="Enter keyword">
+    <button id="scrape">Scrape</button>
+    <div id="results"></div>
+
+    <footer>Created by Pedro Henrique Boldori Bier</footer>
+
+    <script>
+        document.getElementById('scrape').addEventListener('click', async () => {
+            const keyword = document.getElementById('keyword').value;
+            const response = await fetch(`/api/scrape?keyword=${keyword}`);
+            const data = await response.json();
+
+            // Display the results
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '';
+            data.forEach(product => {
+                // Check for undefined values
+                if (product.title !== undefined && product.rating !== undefined && product.reviews !== undefined) {
+                    const productDiv = document.createElement('div');
+                    productDiv.classList.add('product-card');
+                    productDiv.innerHTML = `
+                        <img src="${product.image}" alt="${product.title}">
+                        <p>Title: ${product.title}</p>
+                        <p>Rating: ${product.rating}</p>
+                        <p>Reviews: ${product.reviews}</p>
+                    `;
+                    resultsDiv.appendChild(productDiv);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

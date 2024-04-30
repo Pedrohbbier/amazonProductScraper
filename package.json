@@ -1,0 +1,16 @@
+{
+  "name": "amazonproductslist",
+  "version": "1.0.0",
+  "description": "amazon products list project",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Pedro Henrique Boldori Bier",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.6.8",
+    "express": "^4.19.2",
+    "jsdom": "^24.0.0"
+  }
+}
